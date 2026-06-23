@@ -25,4 +25,7 @@ config FLASH
 
 endif # REALTEK_RTS5912_RTMR
 
+config MAIN_STACK_SIZE
+	default 1280
+
 endif # SOC_RTS5912
