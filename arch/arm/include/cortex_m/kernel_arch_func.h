@@ -29,6 +29,7 @@ extern "C" {
 
 #ifndef _ASMLANGUAGE
 #include <zephyr/arch/arm/arm-m-switch.h>
+#include <zephyr/sys/__assert.h>
 
 extern void z_arm_fault_init(void);
 extern void z_arm_cpu_idle_init(void);
@@ -83,6 +84,11 @@ extern void z_arm_fatal_error(unsigned int reason, const struct arch_esf *esf);
 #ifndef CONFIG_USE_SWITCH
 static ALWAYS_INLINE int arch_swap(unsigned int key)
 {
+#if defined(CONFIG_ARMV7_M_ARMV8_M_MAINLINE)
+	/* irq_unlock(0) only clears BASEPRI; PRIMASK would keep PendSV masked */
+	__ASSERT(__get_PRIMASK() == 0U, "arch_swap() called with PRIMASK set");
+#endif
+
 	/* store off key and return value */
 	_current->arch.basepri = key;
 	_current->arch.swap_return_value = -EAGAIN;
