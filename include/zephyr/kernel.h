@@ -5646,6 +5646,8 @@ __syscall int k_msgq_peek_at(struct k_msgq *msgq, void *data, uint32_t idx);
  * buffer. Any threads that are blocked waiting to send a message to the
  * message queue are unblocked and see an -ENOMSG error code.
  *
+ * @isr_ok @reschedule
+ *
  * @param msgq Address of the message queue.
  */
 __syscall void k_msgq_purge(struct k_msgq *msgq);
@@ -5795,6 +5797,8 @@ void k_mbox_init(struct k_mbox *mbox);
  * receive and process it. The message data may be in a buffer or non-existent
  * (i.e. an empty message).
  *
+ * @sleep
+ *
  * @param mbox Address of the mailbox.
  * @param tx_msg Address of the transmit message descriptor.
  * @param timeout Waiting period for the message to be received,
@@ -5819,6 +5823,8 @@ int k_mbox_put(struct k_mbox *mbox, struct k_mbox_msg *tx_msg,
  * when the message has been both received and completely processed by
  * the receiver.
  *
+ * @sleep @async
+ *
  * @param mbox Address of the mailbox.
  * @param tx_msg Address of the transmit message descriptor.
  * @param sem Address of a semaphore, or NULL if none is needed.
@@ -5831,6 +5837,8 @@ void k_mbox_async_put(struct k_mbox *mbox, struct k_mbox_msg *tx_msg,
  *
  * This routine receives a message from @a mbox, then optionally retrieves
  * its data and disposes of the message.
+ *
+ * @sleep
  *
  * @param mbox Address of the mailbox.
  * @param rx_msg Address of the receive message descriptor.
@@ -5958,6 +5966,8 @@ struct k_pipe {
  * This routine writes up to @a len bytes of data to @a pipe.
  * If the pipe is full, the routine will block until the data can be written or the timeout expires.
  *
+ * @sleep @no_wait
+ *
  * @param pipe Address of the pipe.
  * @param data Address of data to write.
  * @param len Size of data (in bytes).
@@ -5976,6 +5986,8 @@ __syscall int k_pipe_write(struct k_pipe *pipe, const uint8_t *data, size_t len,
  * @brief Read data from a pipe
  * This routine reads up to @a len bytes of data from @a pipe.
  * If the pipe is empty, the routine will block until the data can be read or the timeout expires.
+ *
+ * @sleep @no_wait
  *
  * @param pipe Address of the pipe.
  * @param data Address to place the data read from pipe.
@@ -6009,6 +6021,8 @@ __syscall void k_pipe_reset(struct k_pipe *pipe);
  * k_pipe_write() are unblocked and receive an error. Threads waiting in
  * k_poll() for K_POLL_TYPE_PIPE_DATA_AVAILABLE are woken as well: a
  * closed pipe is treated as readable so k_pipe_read() can return -EPIPE.
+ *
+ * @isr_ok @reschedule
  *
  * @param pipe Address of the pipe.
  */
@@ -6497,6 +6511,8 @@ void *k_heap_realloc(struct k_heap *h, void *ptr, size_t bytes, k_timeout_t time
  * Returns the specified memory block, which must have been returned
  * from k_heap_alloc(), to the heap for use by other callers.  Passing
  * a NULL block is legal, and has no effect.
+ *
+ * @isr_ok @reschedule
  *
  * @param h Heap to which to return the memory
  * @param mem A valid memory block, or NULL
@@ -7041,6 +7057,8 @@ void k_poll_event_init(struct k_poll_event *event, uint32_t type,
  * When called from user mode, a temporary memory allocation is required from
  * the caller's resource pool.
  *
+ * @sleep
+ *
  * @param events An array of events to be polled for.
  * @param num_events The number of events in the array.
  * @param timeout Waiting period for an event to be ready,
@@ -7106,6 +7124,8 @@ __syscall void k_poll_signal_check(struct k_poll_signal *sig,
  * @note The result is stored and the 'signaled' field is set even when the
  * polling thread's timeout is already expiring and the poll is therefore not
  * notified directly.  The next k_poll() will detect the missed raise.
+ *
+ * @isr_ok @reschedule
  *
  * @param sig A poll signal.
  * @param result The value to store in the result field of the signal.
