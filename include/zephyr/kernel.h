@@ -2393,7 +2393,7 @@ __syscall void k_queue_init(struct k_queue *queue);
  * -EINTR and K_POLL_STATE_CANCELLED state (and per above, subsequent
  * k_queue_get() will return NULL).
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param queue Address of the queue.
  */
@@ -2406,7 +2406,7 @@ __syscall void k_queue_cancel_wait(struct k_queue *queue);
  * aligned as required for a pointer, and its first pointer-sized field is
  * reserved for the kernel's use.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param queue Address of the queue.
  * @param data Address of the data item.
@@ -2421,7 +2421,7 @@ void k_queue_append(struct k_queue *queue, void *data);
  * the calling thread's resource pool, which is automatically freed when the
  * item is removed. The data itself is not copied.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param queue Address of the queue.
  * @param data Address of the data item.
@@ -2438,7 +2438,7 @@ __syscall int32_t k_queue_alloc_append(struct k_queue *queue, void *data);
  * aligned as required for a pointer, and its first pointer-sized field is
  * reserved for the kernel's use.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param queue Address of the queue.
  * @param data Address of the data item.
@@ -2453,7 +2453,7 @@ void k_queue_prepend(struct k_queue *queue, void *data);
  * the calling thread's resource pool, which is automatically freed when the
  * item is removed. The data itself is not copied.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param queue Address of the queue.
  * @param data Address of the data item.
@@ -2470,7 +2470,7 @@ __syscall int32_t k_queue_alloc_prepend(struct k_queue *queue, void *data);
  * data item must be aligned as required for a pointer, and its first
  * pointer-sized field is reserved for the kernel's use.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param queue Address of the queue.
  * @param prev Address of the previous data item.
@@ -2486,7 +2486,7 @@ void k_queue_insert(struct k_queue *queue, void *prev, void *data);
  * field in each data item pointing to the next data item; the list must be
  * NULL-terminated.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param queue Address of the queue.
  * @param head Pointer to first node in singly-linked list.
@@ -2507,7 +2507,7 @@ int k_queue_append_list(struct k_queue *queue, void *head, void *tail);
  * The caller is responsible for ensuring that @a list is not concurrently
  * accessed by other threads or ISRs.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param queue Address of the queue.
  * @param list Pointer to sys_slist_t object.
@@ -2559,7 +2559,7 @@ bool k_queue_remove(struct k_queue *queue, void *data);
  * the data item is reserved for the kernel's use. Appending elements to
  * k_queue relies on sys_slist_is_node_in_list which is not a constant time operation.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param queue Address of the queue.
  * @param data Address of the data item.
@@ -2754,7 +2754,7 @@ __syscall void k_event_init(struct k_event *event);
  * Posting differs from setting in that posted events are merged together with
  * the current set of events tracked by the event object.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param event Address of the event object
  * @param events Set of events to post to @a event
@@ -2774,7 +2774,7 @@ __syscall uint32_t k_event_post(struct k_event *event, uint32_t events);
  * Setting differs from posting in that set events replace the current set of
  * events tracked by the event object.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param event Address of the event object
  * @param events Set of events to set in @a event
@@ -2791,7 +2791,7 @@ __syscall uint32_t k_event_set(struct k_event *event, uint32_t events);
  * become met by this immediately unpend. Unlike @ref k_event_set, this routine
  * allows specific event bits to be set and cleared as determined by the mask.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param event Address of the event object
  * @param events Set of events to set/clear in @a event
@@ -3015,7 +3015,7 @@ struct k_fifo {
  * return from k_fifo_get() call with NULL value (as if timeout
  * expired).
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param fifo Address of the FIFO queue.
  */
@@ -3033,7 +3033,7 @@ struct k_fifo {
  * as required for a pointer, and its first pointer-sized field is reserved
  * for the kernel's use.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param fifo Address of the FIFO.
  * @param data Address of the data item.
@@ -3054,7 +3054,7 @@ struct k_fifo {
  * the calling thread's resource pool, which is automatically freed when the
  * item is removed. The data itself is not copied.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param fifo Address of the FIFO.
  * @param data Address of the data item.
@@ -3079,7 +3079,7 @@ struct k_fifo {
  * field in each data item pointing to the next data item; the list must be
  * NULL-terminated.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param fifo Address of the FIFO queue.
  * @param head Pointer to first node in singly-linked list.
@@ -3103,7 +3103,7 @@ struct k_fifo {
  * sys_slist_t object. Upon completion, the sys_slist_t object is invalid
  * and must be re-initialized via sys_slist_init().
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param fifo Address of the FIFO queue.
  * @param list Pointer to sys_slist_t object.
@@ -3273,7 +3273,7 @@ struct k_lifo {
  * aligned as required for a pointer, and its first pointer-sized field is
  * reserved for the kernel's use.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param lifo Address of the LIFO queue.
  * @param data Address of the data item.
@@ -3294,7 +3294,7 @@ struct k_lifo {
  * the calling thread's resource pool, which is automatically freed when the
  * item is removed. The data itself is not copied.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param lifo Address of the LIFO.
  * @param data Address of the data item.
@@ -3437,7 +3437,7 @@ int k_stack_cleanup(struct k_stack *stack);
  *
  * This routine adds a stack_data_t value @a data to @a stack.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param stack Address of the stack.
  * @param data Value to push onto the stack.
@@ -3835,7 +3835,7 @@ __syscall int k_sem_take(struct k_sem *sem, k_timeout_t timeout);
  * This routine gives @a sem, unless the semaphore is already at its maximum
  * permitted count.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param sem Address of the semaphore.
  */
@@ -4075,7 +4075,7 @@ static inline bool k_work_is_pending(const struct k_work *work);
  * @param queue pointer to the work queue on which the item should run.  If
  * NULL the queue from the most recent submission will be used.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param work pointer to the work item.
  *
@@ -4095,7 +4095,7 @@ int k_work_submit_to_queue(struct k_work_q *queue,
 
 /** @brief Submit a work item to the system queue.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param work pointer to the work item.
  *
@@ -5044,7 +5044,7 @@ static inline bool k_work_user_is_pending(struct k_work_user *work)
  * thread must have memory access to the k_work item being submitted. The caller
  * must have permission granted on the work_q parameter's queue object.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param work_q Address of workqueue.
  * @param work Address of work item.
@@ -5178,7 +5178,7 @@ void k_work_poll_init(struct k_work_poll *work,
  * to race conditions with the pre-existing triggered work item and work queue,
  * so care must be taken to synchronize such resubmissions externally.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @warning
  * Provided array of events as well as a triggered work item must be placed
@@ -5218,7 +5218,7 @@ int k_work_poll_submit_to_queue(struct k_work_q *work_q,
  * to race conditions with the pre-existing triggered work item and work queue,
  * so care must be taken to synchronize such resubmissions externally.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @warning
  * The provided array of events as well as a triggered work item must not be
@@ -5517,7 +5517,7 @@ __syscall int k_msgq_put(struct k_msgq *msgq, const void *data, k_timeout_t time
  *
  * @note k_msgq_put_front() does not block.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param msgq Address of the message queue.
  * @param data Pointer to the message.
@@ -6202,7 +6202,7 @@ int k_mem_slab_alloc(struct k_mem_slab *slab, void **mem,
  * This routine releases a previously allocated memory block back to its
  * associated memory slab.
  *
- * @isr_ok
+ * @isr_ok @reschedule
  *
  * @param slab Address of the memory slab.
  * @param mem Pointer to the memory block (as returned by k_mem_slab_alloc()).
