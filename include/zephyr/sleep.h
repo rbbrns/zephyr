@@ -38,6 +38,8 @@ extern "C" {
  * upon.  It reports the time left to sleep in ticks, the unit the kernel
  * works in, so it needs no unit conversion and is the cheapest of the four.
  *
+ * @sleep
+ *
  * @param timeout Desired duration of sleep.
  *
  * @return Zero if the requested time has elapsed, or the time left to sleep
@@ -192,6 +194,8 @@ static ALWAYS_INLINE int32_t z_sleep_ticks_to_int32_us(k_ticks_t ticks)
  * This routine puts the current thread to sleep for @a duration,
  * specified as a k_timeout_t object.
  *
+ * @sleep
+ *
  * @param timeout Desired duration of sleep.
  *
  * @return Zero if the requested time has elapsed or the time left to
@@ -218,6 +222,8 @@ static ALWAYS_INLINE int32_t k_sleep(k_timeout_t timeout)
  *
  * This routine puts the current thread to sleep for @a duration milliseconds.
  *
+ * @sleep
+ *
  * @param ms Number of milliseconds to sleep.
  *
  * @return Zero if the requested time has elapsed or if the thread was woken up
@@ -238,6 +244,8 @@ static ALWAYS_INLINE int32_t k_msleep(int32_t ms)
  * adjusted to achieve the resolution desired. The implications of doing
  * this must be understood before attempting to use k_usleep(). Use with
  * caution.
+ *
+ * @sleep
  *
  * @param us Number of microseconds to sleep.
  *
