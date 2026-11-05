@@ -2525,7 +2525,7 @@ int k_queue_merge_slist(struct k_queue *queue, sys_slist_t *list);
  *
  * @note @a timeout must be set to K_NO_WAIT if called from ISR.
  *
- * @isr_ok
+ * @sleep @no_wait
  *
  * @param queue Address of the queue.
  * @param timeout Waiting period to obtain a data item, or one of the special
@@ -3127,7 +3127,7 @@ struct k_fifo {
  *
  * @note @a timeout must be set to K_NO_WAIT if called from ISR.
  *
- * @isr_ok
+ * @sleep @no_wait
  *
  * @param fifo Address of the FIFO queue.
  * @param timeout Waiting period to obtain a data item,
@@ -3320,7 +3320,7 @@ struct k_lifo {
  *
  * @note @a timeout must be set to K_NO_WAIT if called from ISR.
  *
- * @isr_ok
+ * @sleep @no_wait
  *
  * @param lifo Address of the LIFO queue.
  * @param timeout Waiting period to obtain a data item,
@@ -3455,7 +3455,7 @@ __syscall int k_stack_push(struct k_stack *stack, stack_data_t data);
  *
  * @note @a timeout must be set to K_NO_WAIT if called from ISR.
  *
- * @isr_ok
+ * @sleep @no_wait
  *
  * @param stack Address of the stack.
  * @param data Address of area to hold the value popped from the stack.
@@ -3816,7 +3816,7 @@ __syscall int k_sem_init(struct k_sem *sem, unsigned int initial_count,
  *
  * @note @a timeout must be set to K_NO_WAIT if called from ISR.
  *
- * @isr_ok
+ * @sleep @no_wait
  *
  * @param sem Address of the semaphore.
  * @param timeout Waiting period to take the semaphore,
@@ -5488,7 +5488,7 @@ int k_msgq_cleanup(struct k_msgq *msgq);
  * pointer is not retained, so the message content will not be modified
  * by this function.
  *
- * @isr_ok
+ * @sleep @no_wait
  *
  * @param msgq Address of the message queue.
  * @param data Pointer to the message.
@@ -5535,7 +5535,7 @@ __syscall int k_msgq_put_front(struct k_msgq *msgq, const void *data);
  *
  * @note @a timeout must be set to K_NO_WAIT if called from ISR.
  *
- * @isr_ok
+ * @sleep @no_wait
  *
  * @param msgq Address of the message queue.
  * @param data Address of area to hold the received message.
@@ -6180,7 +6180,7 @@ int k_mem_slab_init(struct k_mem_slab *slab, void *buffer,
  * @note @a timeout must be set to K_NO_WAIT if called from ISR.
  * @note When CONFIG_MULTITHREADING=n any @a timeout is treated as K_NO_WAIT.
  *
- * @isr_ok
+ * @sleep @no_wait
  *
  * @param slab Address of the memory slab.
  * @param mem Pointer to block address area.
@@ -6348,7 +6348,7 @@ void k_heap_init(struct k_heap *h, void *mem,
  * @note @a timeout must be set to K_NO_WAIT if called from ISR.
  * @note When CONFIG_MULTITHREADING=n any @a timeout is treated as K_NO_WAIT.
  *
- * @isr_ok
+ * @sleep @no_wait
  *
  * @param h Heap from which to allocate
  * @param align Alignment in bytes, must be a power of two
@@ -6374,7 +6374,7 @@ void *k_heap_aligned_alloc(struct k_heap *h, size_t align, size_t bytes,
  * @note @a timeout must be set to K_NO_WAIT if called from ISR.
  * @note When CONFIG_MULTITHREADING=n any @a timeout is treated as K_NO_WAIT.
  *
- * @isr_ok
+ * @sleep @no_wait
  *
  * @param h Heap from which to allocate
  * @param bytes Desired size of block to allocate
@@ -6398,7 +6398,7 @@ void *k_heap_alloc(struct k_heap *h, size_t bytes,
  * @note @a timeout must be set to K_NO_WAIT if called from ISR.
  * @note When CONFIG_MULTITHREADING=n any @a timeout is treated as K_NO_WAIT.
  *
- * @isr_ok
+ * @sleep @no_wait
  *
  * @param h Heap from which to allocate
  * @param num Number of objects to allocate
@@ -6423,7 +6423,7 @@ void *k_heap_calloc(struct k_heap *h, size_t num, size_t size, k_timeout_t timeo
  * @note @a timeout must be set to K_NO_WAIT if called from ISR.
  * @note When CONFIG_MULTITHREADING=n any @a timeout is treated as K_NO_WAIT.
  *
- * @isr_ok
+ * @sleep @no_wait
  *
  * @param h Heap from which to allocate
  * @param ptr Original pointer returned from a previous allocation
