@@ -2853,6 +2853,8 @@ __syscall uint32_t k_event_clear(struct k_event *event, uint32_t events);
  * @note This function may be called from ISR context only when @a timeout is
  * set to K_NO_WAIT.
  *
+ * @sleep @no_wait
+ *
  * @param event Address of the event object
  * @param events Set of desired events on which to wait
  * @param reset If true, clear the set of events tracked by the event object
@@ -2883,6 +2885,8 @@ __syscall uint32_t k_event_wait(struct k_event *event, uint32_t events,
  * @note This function may be called from ISR context only when @a timeout is
  * set to K_NO_WAIT.
  *
+ * @sleep @no_wait
+ *
  * @param event Address of the event object
  * @param events Set of desired events on which to wait
  * @param reset If true, clear the set of events tracked by the event object
@@ -2908,6 +2912,8 @@ __syscall uint32_t k_event_wait_all(struct k_event *event, uint32_t events,
  * passing a "reset" argument, since doing so may result in lost event
  * information.
  *
+ * @sleep @no_wait
+ *
  * @param event Address of the event object
  * @param events Set of desired events on which to wait
  * @param reset If true, clear the set of events tracked by the event object
@@ -2932,6 +2938,8 @@ __syscall uint32_t k_event_wait_safe(struct k_event *event, uint32_t events,
  * from the event object. This mitigates the need for calling
  * @ref k_event_clear, or passing a "reset" argument, since doing so may
  * result in lost event information.
+ *
+ * @sleep @no_wait
  *
  * @param event Address of the event object
  * @param events Set of desired events on which to wait
@@ -3624,6 +3632,8 @@ __syscall int k_mutex_init(struct k_mutex *mutex);
  * otherwise the owning thread is left tracking a mutex in memory that no
  * longer belongs to it.
  *
+ * @sleep
+ *
  * @param mutex Address of the mutex.
  * @param timeout Waiting period to lock the mutex,
  *                or one of the special values K_NO_WAIT and
@@ -3647,6 +3657,8 @@ __syscall int k_mutex_lock(struct k_mutex *mutex, k_timeout_t timeout);
  *
  * Mutexes may not be unlocked in ISRs, as mutexes must only be manipulated
  * in thread context due to ownership and priority inheritance semantics.
+ *
+ * @sleep
  *
  * @param mutex Address of the mutex.
  *
@@ -3708,6 +3720,8 @@ __syscall int k_condvar_init(struct k_condvar *condvar);
 /**
  * @brief Signals one thread that is pending on the condition variable
  *
+ * @isr_ok @reschedule
+ *
  * @param condvar pointer to a @p k_condvar structure
  * @retval 0 On success
  */
@@ -3716,6 +3730,8 @@ __syscall int k_condvar_signal(struct k_condvar *condvar);
 /**
  * @brief Unblock all threads that are pending on the condition
  * variable
+ *
+ * @isr_ok @reschedule
  *
  * @param condvar pointer to a @p k_condvar structure
  * @return An integer with number of woken threads on success
@@ -3731,6 +3747,8 @@ __syscall int k_condvar_broadcast(struct k_condvar *condvar);
  *
  * The waiting thread unblocks only after another thread calls
  * k_condvar_signal, or k_condvar_broadcast with the same condition variable.
+ *
+ * @sleep
  *
  * @param condvar pointer to a @p k_condvar structure
  * @param mutex Address of the mutex.
