@@ -4155,6 +4155,8 @@ int k_work_submit(struct k_work *work);
  * @note Behavior is undefined if this function is invoked on @p work from a
  * work queue running @p work.
  *
+ * @sleep
+ *
  * @param work pointer to the work item.
  *
  * @param sync pointer to an opaque item containing state related to the
@@ -4206,6 +4208,8 @@ int k_work_cancel(struct k_work *work);
  *
  * @note Behavior is undefined if this function is invoked on @p work from a
  * work queue running @p work.
+ *
+ * @sleep
  *
  * @param work pointer to the work item.
  *
@@ -4294,6 +4298,8 @@ static inline k_tid_t k_work_queue_thread_get(struct k_work_q *queue);
  * work queue remains empty.  The @p plug feature can be used to prevent
  * delayed items from being submitted after the drain completes.
  *
+ * @sleep
+ *
  * @param queue pointer to the queue structure.
  *
  * @param plug if true the work queue will continue to block new submissions
@@ -4329,6 +4335,8 @@ int k_work_queue_unplug(struct k_work_q *queue);
  * The queue must have been drained and plugged first (for example via
  * k_work_queue_drain() with the @p plug option enabled); otherwise the call
  * returns -EBUSY.
+ *
+ * @sleep @no_wait
  *
  * @param queue Pointer to the queue structure.
  * @param timeout Maximum time to wait for the work queue to stop.
@@ -4472,6 +4480,8 @@ int k_work_schedule_for_queue(struct k_work_q *queue,
  * This is a thin wrapper around k_work_schedule_for_queue(), with all the API
  * characteristics of that function.
  *
+ * @isr_ok
+ *
  * @param dwork pointer to the delayable work item.
  *
  * @param delay the time to wait before submitting the work item.  If @c
@@ -4527,6 +4537,8 @@ int k_work_reschedule_for_queue(struct k_work_q *queue,
  * This is a thin wrapper around k_work_reschedule_for_queue(), with all the
  * API characteristics of that function.
  *
+ * @isr_ok
+ *
  * @param dwork pointer to the delayable work item.
  *
  * @param delay the time to wait before submitting the work item.
@@ -4547,6 +4559,8 @@ int k_work_reschedule(struct k_work_delayable *dwork,
  *
  * @note Behavior is undefined if this function is invoked on @p dwork from a
  * work queue running @p dwork.
+ *
+ * @sleep
  *
  * @param dwork pointer to the delayable work item.
  *
@@ -4598,6 +4612,8 @@ int k_work_cancel_delayable(struct k_work_delayable *dwork);
  *
  * @note Behavior is undefined if this function is invoked on @p dwork from a
  * work queue running @p dwork.
+ *
+ * @sleep
  *
  * @param dwork pointer to the delayable work item.
  *
