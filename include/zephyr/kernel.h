@@ -498,6 +498,8 @@ __syscall int k_thread_stack_free(k_thread_stack_t *stack);
  *
  * Using other values, or sizeof(stack) may produce undefined behavior.
  *
+ * @reschedule
+ *
  * @param new_thread Pointer to uninitialized struct k_thread
  * @param stack Pointer to the stack space.
  * @param stack_size Stack size in bytes.
@@ -735,6 +737,8 @@ void k_thread_system_pool_assign(struct k_thread *thread);
  * where it can be useful as a predicate to detect when a thread has
  * aborted.
  *
+ * @sleep @no_wait
+ *
  * @param thread Thread to wait to exit
  * @param timeout upper bound time to wait for the thread to exit.
  * @retval 0 success, target thread has exited or wasn't running
@@ -760,6 +764,8 @@ __syscall int k_thread_join(struct k_thread *thread, k_timeout_t timeout);
  * @note In case when @kconfig{CONFIG_SYSTEM_CLOCK_SLOPPY_IDLE} and
  * @kconfig{CONFIG_PM} options are enabled, this function may not work.
  * The timer/clock used for delay processing may be disabled/inactive.
+ *
+ * @isr_ok @pre_kernel_ok
  */
 __syscall void k_busy_wait(uint32_t usec_to_wait);
 
@@ -782,6 +788,8 @@ bool k_can_yield(void);
  * This routine causes the current thread to yield execution to another
  * thread of the same or higher priority. If there are no other ready threads
  * of the same or higher priority, the routine returns immediately.
+ *
+ * @sleep
  */
 __syscall void k_yield(void);
 
@@ -791,6 +799,8 @@ __syscall void k_yield(void);
  * This routine prematurely wakes up @a thread from sleeping.
  *
  * If @a thread is not currently sleeping, the routine has no effect.
+ *
+ * @isr_ok @reschedule
  *
  * @param thread ID of thread to wake.
  */
@@ -903,6 +913,8 @@ static inline bool k_thread_is_user_thread(const struct k_thread *thread)
  * k_thread_join()), but in interrupt context on SMP systems the
  * implementation is required to spin for threads that are running on
  * other CPUs.
+ *
+ * @isr_ok @reschedule
  *
  * @param thread ID of thread to abort.
  */
@@ -1114,6 +1126,8 @@ __syscall int k_thread_priority_get(k_tid_t thread);
  * Priority can be assigned in the range of -CONFIG_NUM_COOP_PRIORITIES to
  * CONFIG_NUM_PREEMPT_PRIORITIES-1, where -CONFIG_NUM_COOP_PRIORITIES is the
  * highest priority.
+ *
+ * @isr_ok @reschedule
  *
  * @param thread ID of thread whose priority is to be set.
  * @param prio New priority.
@@ -1330,6 +1344,8 @@ int k_thread_cpu_pin(k_tid_t thread, int cpu);
  *
  * If @a thread is already suspended, the routine has no effect.
  *
+ * @isr_ok @reschedule
+ *
  * @param thread ID of thread to suspend.
  */
 __syscall void k_thread_suspend(k_tid_t thread);
@@ -1342,6 +1358,8 @@ __syscall void k_thread_suspend(k_tid_t thread);
  * when it is next eligible for that role.
  *
  * If @a thread is not currently suspended, the routine has no effect.
+ *
+ * @isr_ok @reschedule
  *
  * @param thread ID of thread to resume.
  */
@@ -1514,6 +1532,8 @@ void k_sched_lock(void);
  * This routine reverses the effect of a previous call to k_sched_lock().
  * A thread must call the routine once for each time it called k_sched_lock()
  * before the thread becomes preemptible.
+ *
+ * @reschedule
  */
 void k_sched_unlock(void);
 
@@ -2072,6 +2092,8 @@ __syscall uint32_t k_timer_status_get(struct k_timer *timer);
  *
  * This routine must not be used by interrupt handlers, since they are not
  * allowed to block.
+ *
+ * @sleep
  *
  * @param timer     Address of timer.
  *
