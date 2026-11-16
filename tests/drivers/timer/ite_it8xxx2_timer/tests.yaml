@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: Copyright The Zephyr Project Contributors
+# SPDX-License-Identifier: Apache-2.0
+
+tests:
+  drivers.timer.ite_it8xxx2_timer:
+    tags:
+      - drivers
+      - timer
+    filter: dt_compat_enabled("ite,it8xxx2-timer")
+    integration_platforms:
+      - it82xx2_evb
