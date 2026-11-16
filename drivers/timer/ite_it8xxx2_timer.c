@@ -11,6 +11,7 @@
 #include <soc.h>
 #include <zephyr/spinlock.h>
 #include <zephyr/sys/clock.h>
+#include <zephyr/sys/util.h>
 
 #include <zephyr/logging/log.h>
 #include <zephyr/irq.h>
@@ -365,7 +366,7 @@ uint64_t ite_ec_clock_get_sleep_ticks(void)
 }
 #endif /* CONFIG_PM */
 
-static int sys_clock_driver_init(void)
+ZTESTABLE_STATIC int sys_clock_driver_init(void)
 {
 	struct gctrl_it8xxx2_regs *const gctrl_regs = GCTRL_IT8XXX2_REGS_BASE;
 	int ret;
