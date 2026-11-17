@@ -3,7 +3,6 @@ name: Compliance Checks
 on:
   pull_request:
     types:
-    - edited
     - opened
     - reopened
     - synchronize
