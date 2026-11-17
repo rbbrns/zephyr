@@ -227,6 +227,7 @@ uintptr_t emul_espi_host_get_acpi_shm(const struct device *espi_dev)
 	uint32_t shm;
 	int rc = espi_read_lpc_request(espi_dev, EACPI_GET_SHARED_MEMORY, &shm);
 
+	ARG_UNUSED(rc);
 	__ASSERT_NO_MSG(rc == 0);
 
 	return (uintptr_t) shm;
