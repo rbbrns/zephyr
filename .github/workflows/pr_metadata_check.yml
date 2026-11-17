@@ -19,7 +19,7 @@ concurrency:
   # required check reported as "cancelled". The label name is empty for the
   # push events, which therefore keep sharing a group and still supersede each
   # other.
-  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.head_ref || github.ref }}-${{ github.event.action }}-${{ github.event.label.name }}
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}-${{ github.event.pull_request.base.sha }}-${{ github.event.action }}-${{ github.event.label.name }}
   cancel-in-progress: true
 
 jobs:
